@@ -258,7 +258,7 @@ void static _handle_pin_changed(const uint8_t input_num_ext, const int8_t pin_va
 
     // perform probing operations if in probing mode
     if (in->probing_mode) {
-        if (in->edge == INPUT_EDGE_LEADING) {   // we only want the leading edge to fire
+        if (in->edge == INPUT_EDGE_TRAILING) {   // the leading edge should fire for NO probe: HIGH (1) -> LOW (0)
             en_take_encoder_snapshot();
             cm_start_hold();
         }
