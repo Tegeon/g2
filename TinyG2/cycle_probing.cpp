@@ -206,8 +206,8 @@ static stat_t _probing_start()
 	// initial probe state, don't probe if we're already contacted!
     int8_t probe = gpio_read_input(pb.probe_input);
 
-    // INPUT_INACTIVE means switch is OPEN
-	if ( probe == INPUT_INACTIVE ) {
+    // INPUT_INACTIVE means INPUT == 0, which is a state during probe contact (switch CLOSED), we need INPUT_ACTIVE (switch OPEN) here
+	if ( probe == INPUT_ACTIVE ) {
 		cm_straight_feed(pb.target, pb.flags);
         return (_set_pb_func(_probing_backoff));
 
@@ -228,8 +228,8 @@ static stat_t _probing_backoff()
     // Test if we've contacted
     int8_t probe = gpio_read_input(pb.probe_input);
 
-    // INPUT_INACTIVE means switch is OPEN (at least for now)
-    if ( probe == INPUT_INACTIVE ) {
+    // INPUT_ACTIVE means switch is OPEN (at least for now)
+    if ( probe == INPUT_ACTIVE ) {
         cm.probe_state = PROBE_FAILED;
 
     } else {
